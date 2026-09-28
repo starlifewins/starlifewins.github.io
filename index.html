@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STARLIFE AGENCIES - Dashboard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#0f172a;color:#fff;min-height:100vh}
+.header{background:#1e293b;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
+.logo{font-weight:900;font-size:20px;color:#facc15}
+.menu-btn{font-size:26px;cursor:pointer;background:#facc15;color:#000;border:none;padding:5px 12px;border-radius:8px}
+.sidebar{position:fixed;top:0;left:-100%;width:280px;height:100%;background:#1e293b;z-index:9999;transition:0.3s;padding:20px;box-shadow:4px 0 20px rgba(0,0,0,0.5)}
+.sidebar.active{left:0}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9998;display:none}
+.overlay.active{display:block}
+.sidebar a{display:block;padding:12px;color:#cbd5e1;text-decoration:none;border-radius:8px;margin:8px 0}
+.sidebar a:hover{background:#334155;color:#facc15}
+.main{padding:20px;max-width:1100px;margin:auto}
+.card{background:#1e293b;border-radius:16px;padding:20px;margin:15px 0;border:1px solid #334155}
+.btn{background:#facc15;color:#000;padding:12px 20px;border-radius:10px;font-weight:800;text-decoration:none;display:inline-block;border:none;cursor:pointer}
+.ref-box{background:#0f172a;border:1px dashed #facc15;padding:15px;border-radius:10px;word-break:break-all;margin-top:10px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">★ STARLIFE</div>
+  <button class="menu-btn" onclick="openMenu()">☰</button>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<div class="sidebar" id="sidebar">
+  <h2 style="color:#facc15;margin-bottom:20px">STARLIFE MENU</h2>
+  <a href="#" onclick="closeMenu()">🏠 Dashboard</a>
+  <a href="#" onclick="closeMenu()">👥 My Team</a>
+  <a href="#" onclick="closeMenu()">💰 Earnings</a>
+  <a href="#" onclick="closeMenu()">🔗 My Referral Link</a>
+  <a href="#" onclick="closeMenu()">💬 Chatwave Support</a>
+  <a href="#" onclick="closeMenu()">⚙️ Settings</a>
+  <div style="margin-top:30px"><button class="btn" style="width:100%" onclick="closeMenu()">Close Menu ✕</button></div>
+</div>
+
+<div class="main">
+  <div class="card">
+    <h1>Welcome to STARLIFE AGENCIES 🚀</h1>
+    <p style="color:#94a3b8;margin:10px 0">Your referral system is now LIVE!</p>
+    <div id="welcomeRef" style="margin-top:10px;color:#facc15"></div>
+  </div>
+
+  <div class="card">
+    <h3>🔗 Your Referral Link</h3>
+    <p style="color:#94a3b8;font-size:14px">Share this link to earn:</p>
+    <div class="ref-box" id="refLink">Loading...</div>
+    <button class="btn" style="margin-top:12px" onclick="copyLink()">Copy Link</button>
+  </div>
+
+  <div class="card">
+    <h3>📊 Stats</h3>
+    <p>Referrals: <b id="count">0</b></p>
+    <p>Referred By: <b id="referredBy">None</b></p>
+  </div>
+</div>
+
+<script>
+// Fix Menu - High z-index
+function openMenu(){
+ document.getElementById('sidebar').classList.add('active');
+ document.getElementById('overlay').classList.add('active');
+}
+function closeMenu(){
+ document.getElementById('sidebar').classList.remove('active');
+ document.getElementById('overlay').classList.remove('active');
+}
+
+// Referral Logic
+const params = new URLSearchParams(window.location.search);
+const ref = params.get('ref');
+if(ref){
+ localStorage.setItem('starlife_referrer', ref);
+ document.getElementById('welcomeRef').innerText = 'You were referred by: ' + ref + ' ✅';
+ document.getElementById('referredBy').innerText = ref;
+}
+const myCode = localStorage.getItem('my_ref_code') || 'starlifewins';
+localStorage.setItem('my_ref_code', myCode);
+const link = 'https://starlifewins.github.io/?ref=' + myCode;
+document.getElementById('refLink').innerText = link;
+
+function copyLink(){
+ navigator.clipboard.writeText(link);
+ alert('Link Copied! ✅\n' + link);
+}
+
+// If referred by someone, show
+const savedRef = localStorage.getItem('starlife_referrer');
+if(savedRef){
+ document.getElementById('referredBy').innerText = savedRef;
+}
+</script>
+
+</body>
+</html>
