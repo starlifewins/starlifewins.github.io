@@ -1,24 +1,75 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>STARLIFE - Paybill 714777</title><style>*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}body{background:#0a1229;color:#fff;min-height:100vh}.h{background:#111d3a;padding:14px 16px}.logo{color:#ffcc00;font-weight:900;font-size:20px}.main{padding:14px;max-width:450px;margin:auto}.c{background:#111d3a;border:1px solid #1e2d5a;border-radius:16px;padding:20px;margin-bottom:12px}.inp{width:100%;padding:14px;border-radius:10px;border:1px solid #2a3a6a;background:#0a1229;color:#fff;margin:8px 0;font-size:15px;outline:none}.inp:focus{border-color:#ffcc00}.btn{background:#ffcc00;color:#000;padding:14px;border-radius:10px;border:0;font-weight:900;width:100%;margin-top:12px;cursor:pointer;font-size:16px}.hide{display:none}.link{color:#ffcc00;text-decoration:underline;cursor:pointer}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.refBox{border:1px dashed #ffcc00;padding:12px;border-radius:10px;color:#ffcc00;word-break:break-all;background:rgba(255,204,0,.08)}.payBox{background:linear-gradient(135deg,#111d3a,#1e2d5a);border:2px solid #ffcc00}.mpesaBox{background:#0a1229;padding:14px;border-radius:12px;margin:12px 0;border:1px solid #1e2d5a}</style></head><body>
-<div class="h"><div class="logo">★ STARLIFE</div></div>
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>STARLIFE</title>
+<style>
+body{background:#0a0a0a;color:white;font-family:sans-serif;margin:0}
+.h{padding:12px;background:#111;display:flex;align-items:center}
+.logo{color:#ffcc00;font-weight:bold}
+.main{padding:16px;max-width:500px;margin:auto}
+.c{background:#151515;border:1px solid #333;border-radius:12px;padding:16px;margin:12px 0}
+.payBox{background:#1a1a0a;border:1px solid #ffcc00}
+.mpesaBox{background:#0f1f0f;border-radius:10px;padding:12px;margin-top:10px}
+.hide{display:none}
+input{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #444;background:#222;color:white;box-sizing:border-box}
+button{width:100%;padding:14px;border:none;border-radius:8px;font-weight:bold;cursor:pointer}
+.btn-pay{background:#00a651;color:white}
+.btn-login{background:#333;color:#ffcc00}
+</style>
+</head><body>
+<div class="h"><div class="logo">★ STARLIFE AGENCIES</div></div>
 
 <div class="main" id="authPage">
-<div class="c" style="text-align:center;border-color:#ffcc00"><h2 style="color:#ffcc00">🚀 JOIN STARLIFE</h2><p id="invited" style="color:#8ea0c8;font-size:13px;margin-top:6px">Bonus KES 1250 after activation</p><div style="background:#0a1229;padding:12px;border-radius:10px;margin-top:12px"><div style="color:#4ade80;font-size:28px;font-weight:900">KES 1,250.00</div><div style="color:#8ea0c8;font-size:12px">WELCOME BONUS</div></div></div>
-<div class="c" id="signupBox"><h3>Create Account</h3><input class="inp" id="fullName" placeholder="Full Name *"><input class="inp" id="userName" placeholder="Username *"><input class="inp" id="phone" placeholder="Safaricom Number * 07..."><input class="inp" id="pass" placeholder="Password *" type="password"><input class="inp" id="pass2" placeholder="Confirm Password *" type="password"><button class="btn" type="button" id="signupBtn">SIGN UP & CONTINUE</button><p style="text-align:center;margin-top:10px;color:#8ea0c8;font-size:13px">Have account? <span class="link" onclick="toggleAuth()">Log In</span></p><p id="err" style="color:#ff6b6b;text-align:center;margin-top:8px"></p></div>
-<div class="c hide" id="loginBox"><h3>Login</h3><input class="inp" id="loginUser" placeholder="Username"><input class="inp" id="loginPass" placeholder="Password" type="password"><button class="btn" type="button" onclick="doLogin()">LOG IN</button><p style="text-align:center;margin-top:10px;color:#8ea0c8">No account? <span class="link" onclick="toggleAuth()">Sign Up</span></p></div>
+<div class="c" id="signupBox"><h3>Create Account</h3>
+<input id="sName" placeholder="Full Name">
+<input id="sPhone" type="tel" placeholder="07XXXXXXXX" value="0720119990">
+<input id="sPass" type="password" placeholder="Password">
+<button onclick="signup()" class="btn-pay">CREATE ACCOUNT</button>
+<p style="text-align:center;margin-top:10px"><a onclick="showLogin()" style="color:#ffcc00;cursor:pointer">Already have account? Login</a></p>
+</div>
+<div class="c hide" id="loginBox"><h3>Login</h3>
+<input id="lPhone" type="tel" placeholder="07XXXXXXXX">
+<input id="lPass" type="password" placeholder="Password">
+<button onclick="login()" class="btn-login">LOGIN</button>
+<p style="text-align:center;margin-top:10px"><a onclick="showSignup()" style="color:#ffcc00;cursor:pointer">Create new account</a></p>
+</div>
 </div>
 
 <div class="main hide" id="payPage">
 <div class="c payBox">
-<h2 style="color:#ffcc00;text-align:center">🔒 Activate Account</h2>
-<p style="text-align:center;color:#8ea0c8;font-size:13px;margin-top:6px">Pay KES 150 to unlock dashboard</p>
+<h2 style="color:#ffcc00;text-align:center">Activate Account</h2>
+<p style="text-align:center;color:#8ea0c8;font-size:14px">Pay KES 150 to activate STARLIFE earnings</p>
 
 <div class="mpesaBox">
-<div style="display:flex;justify-content:space-between;margin:6px 0"><span style="color:#8ea0c8">Paybill Number</span><b style="color:#fff;font-size:18px">714777</b></div>
-<div style="display:flex;justify-content:space-between;margin:6px 0"><span style="color:#8ea0c8">Account Number</span><b style="color:#4ade80;font-size:16px">440200282954</b></div>
-<div style="display:flex;justify-content:space-between;margin:6px 0"><span style="color:#8ea0c8">Amount</span><b style="color:#ffcc00;font-size:18px">KES 150</b></div>
-<div style="display:flex;justify-content:space-between;margin:6px 0"><span style="color:#8ea0c8">User</span><b id="payUser">-</b></div>
+<div style="display:flex;justify-content:space-between;margin:6px 0"><span style="color:#888">Paybill</span><b style="color:#ffcc00">714777</b></div>
+<div style="display:flex;justify-content:space-between;margin:6px 0"><span style="color:#888">Account No</span><b id="accNo">440200282954</b></div>
+<div style="display:flex;justify-content:space-between;margin:6px 0"><span style="color:#888">Amount</span><b>KES 150</b></div>
+<div style="display:flex;justify-content:space-between;margin:6px 0"><span style="color:#888">Business</span><b>STARLIFE</b></div>
 </div>
 
-<div style="font-size:13px;line-height:2;color:#aab8d8">
-<b style="color:#ffcc00">HOW TO PAY:</b><br>
-1. M-PESA > Lipa na
+<p style="margin-top:15px;font-size:13px">M-Pesa Number to receive STK Push:</p>
+<input id="mpesaPhone" type="tel" placeholder="07XXXXXXXX" value="0720119990">
+
+<button id="payBtn" onclick="lipaNow()" class="btn-pay">LIPA KES 150 - PAY NOW</button>
+<div id="status" style="margin-top:12px;font-size:13px;text-align:center;min-height:20px"></div>
+
+<p style="font-size:11px;color:#666;text-align:center;margin-top:15px">You will receive M-Pesa pop-up on your phone. Enter PIN to pay.</p>
+</div>
+</div>
+
+<script>
+let currentUser = JSON.parse(localStorage.getItem('starlife_user')||'null');
+function showPay(){document.getElementById('authPage').classList.add('hide');document.getElementById('payPage').classList.remove('hide');}
+function showLogin(){document.getElementById('signupBox').classList.add('hide');document.getElementById('loginBox').classList.remove('hide');}
+function showSignup(){document.getElementById('loginBox').classList.add('hide');document.getElementById('signupBox').classList.remove('hide');}
+function signup(){
+ const name=document.getElementById('sName').value;
+ const phone=document.getElementById('sPhone').value;
+ const pass=document.getElementById('sPass').value;
+ if(!name||!phone||!pass){alert('Fill all');return;}
+ localStorage.setItem('starlife_user',JSON.stringify({name,phone}));
+ document.getElementById('mpesaPhone').value=phone;
+ document.getElementById('accNo').innerText=phone.replace(/^0/,'').slice(-9)+Math.floor(Math.random()*1000);
+ showPay();
+}
+function login(){showPay();}
+if(current
