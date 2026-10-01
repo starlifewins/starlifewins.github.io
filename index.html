@@ -1,192 +1,33 @@
-<!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>STARLIFE AGENCIES</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-body{background:#f1f5f9}
-.header{background:#7c3aed;color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
-.main{padding:14px;max-width:480px;margin:0 auto}
-.card{border-radius:24px;padding:18px;color:#fff;margin-bottom:14px}
-.purple{background:linear-gradient(135deg,#4c1d95,#7c3aed)} .blue{background:linear-gradient(135deg,#1e40af,#3b82f6)} .green{background:linear-gradient(135deg,#065f46,#10b981)}
-.orange{background:linear-gradient(135deg,#ea580c,#fb923c)}
-.input{width:100%;padding:13px;border-radius:12px;border:1px solid #e2e8f0;margin-bottom:10px;font-size:15px}
-.btn{width:100%;padding:14px;background:#7c3aed;color:#fff;border:none;border-radius:14px;font-weight:800;font-size:16px;cursor:pointer}
-.modal{position:fixed;inset:0;background:rgba(15,23,42,0.95);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
-.box{background:#fff;border-radius:24px;padding:22px;width:100%;max-width:400px;color:#000}
-.tab{display:flex;background:#f1f5f9;border-radius:12px;padding:4px;margin-bottom:14px}
-.tab div{flex:1;text-align:center;padding:10px;border-radius:10px;cursor:pointer;font-weight:700}
-.tab .active{background:#7c3aed;color:#fff}
-.side{position:fixed;top:0;left:-300px;width:280px;height:100%;background:#fff;z-index:99998;transition:0.3s;overflow-y:auto}
-.sideItem{padding:14px 20px;border-bottom:1px solid #f1f5f9;cursor:pointer}
-</style></head><body>
-
-<!-- AUTH MODAL -->
-<div id="authModal" class="modal">
-  <div class="box">
-    <h2 style="color:#7c3aed;text-align:center">⭐ STARLIFE AGENCIES</h2>
-    <div class="tab"><div id="tLogin" class="active" onclick="switchTab('login')">Login</div><div id="tReg" onclick="switchTab('reg')">Sign Up</div></div>
-    
-    <div id="loginForm">
-      <input id="lUser" class="input" placeholder="Username">
-      <input id="lPass" class="input" type="password" placeholder="Password">
-      <button class="btn" onclick="doLogin()">LOG IN</button>
-      <p style="text-align:center;margin-top:10px;color:#64748b;font-size:13px">No account? Click Sign Up</p>
-    </div>
-
-    <div id="regForm" style="display:none">
-      <input id="rFull" class="input" placeholder="Full Name">
-      <input id="rUser" class="input" placeholder="Username">
-      <input id="rEmail" class="input" placeholder="Email">
-      <input id="rPhone" class="input" placeholder="Phone 07...">
-      <input id="rPass" class="input" type="password" placeholder="New Password">
-      <input id="rPass2" class="input" type="password" placeholder="Confirm Password">
-      <button class="btn" onclick="doRegister()">SIGN UP</button>
-    </div>
-  </div>
-</div>
-
-<!-- ACTIVATION MODAL -->
-<div id="actModal" class="modal" style="display:none">
-  <div class="box">
-    <h2 style="color:#7c3aed">Activate Account</h2>
-    <p style="color:#64748b;margin:10px 0;font-size:14px">Pay to activate your account</p>
-    <div style="background:#f5f3ff;border-radius:12px;padding:12px;margin:10px 0">
-      <b>STARLIFE AGENCIES</b><br>
-      Paybill: <b>714777</b><br>
-      Account: <b>440200282954</b><br>
-      Amount: <b>KES 500</b>
-    </div>
-    <input id="mpesaCode" class="input" placeholder="Transaction Code e.g QK12...">
-    <button class="btn" onclick="submitActivation()">Submit & Wait Approval</button>
-    <p id="actStatus" style="margin-top:10px;color:#10b981;font-size:13px"></p>
-    <button onclick="logout()" style="margin-top:10px;width:100%;padding:10px;border:1px solid #e2e8f0;border-radius:10px;background:#fff">Logout</button>
-  </div>
-</div>
-
-<!-- APP -->
-<div class="header"><span onclick="openSide()" style="font-size:24px;cursor:pointer">☰</span><b>STARLIFE AGENCIES</b><span onclick="logout()">👤</span></div>
-<div id="side" class="side">
-  <div style="background:#7c3aed;color:#fff;padding:20px;display:flex;justify-content:space-between"><b>⭐ STARLIFE</b><span onclick="closeSide()" style="cursor:pointer">✕</span></div>
-  <div class="sideItem" style="background:#f5f3ff">🏠 Dashboard</div>
-  <div class="sideItem" onclick="alert('Home')">🏠 Home</div>
-  <div class="sideItem" onclick="closeSide();document.getElementById('withdrawSec').scrollIntoView({behavior:'smooth'})">💳 Withdraw ›</div>
-  <div style="padding:8px 20px;font-size:11px;color:#94a3b8">EARN</div>
-  <div class="sideItem" onclick="earn('click')">👆 Click & Earn</div>
-  <div class="sideItem" onclick="earn('youtube')">▶️ YouTube - 15s Watch & Earn</div>
-  <div class="sideItem" onclick="earn('tiktok')">🎵 TikTok - 15s Watch & Earn</div>
-  <div class="sideItem" onclick="earn('math')">🔢 Maths for Funny</div>
-  <div class="sideItem" onclick="earn('trivia')">❓ Trivia Questions</div>
-  <div class="sideItem" onclick="earn('spin')">🎯 Spin & Earn <span style="background:#10b981;color:#fff;padding:2px 6px;border-radius:8px;font-size:9px">NEW</span></div>
-  <div class="sideItem" onclick="earn('forex')">📈 Free Forex Classes</div>
-  <div class="sideItem" onclick="earn('payclient')">👤 Pay For Client</div>
-  <div class="sideItem">🏆 Leaderboard</div>
-  <div class="sideItem">🎟️ Voucher</div>
-</div>
-<div id="overlay" onclick="closeSide()" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99997;display:none"></div>
-
-<div class="main">
-  <div style="margin:10px 4px"><small style="color:#64748b">Welcome back,</small><b id="uName" style="font-size:32px;display:block;color:#0f172a">Loading...</b><small id="uFull" style="color:#64748b"></small></div>
-  <div class="card purple"><small>EXPENSES</small><b style="font-size:32px;display:block;margin:8px 0">KES 150 / 500</b><div style="background:rgba(255,255,255,.3);height:10px;border-radius:20px"><div style="width:30%;background:#fff;height:100%;border-radius:20px"></div></div></div>
-  <div class="card blue"><h4>ACTIVE BALANCE 💰 <span id="refC" style="float:right;font-size:11px;background:rgba(255,255,255,.3);padding:4px 8px;border-radius:10px">0 REF</span></h4><b id="aBal" style="font-size:36px;display:block;margin:10px 0">KES 0</b><small>+ KES 100 per referral</small></div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
-    <div class="card green" style="margin:0"><small>TOTAL WITHDRAWAL</small><b id="tBal" style="font-size:24px;display:block;margin:6px 0">KES 0</b></div>
-    <div class="card orange" style="margin:0"><small>PENDING</small><b id="pBal" style="font-size:24px;display:block;margin:6px 0">KES 0</b></div>
-  </div>
-  <div id="withdrawSec" class="card" style="background:#fff;color:#000">
-    <b>WITHDRAW</b>
-    <select id="wType" class="input" style="margin-top:10px"><option value="balance">Withdraw Balance</option><option value="activity">Withdraw Activity Balance</option></select>
-    <input id="wAmt" type="number" class="input" placeholder="Amount min 300">
-    <input id="wPhone" class="input" placeholder="Number to receive 07...">
-    <button class="btn" onclick="doWithdraw()">Withdraw & Submit for Admin Approval</button>
-    <div id="hist" style="margin-top:12px"></div>
-  </div>
-  <div class="card" style="background:#fff;color:#000"><b>YOUR REFERRAL LINK</b><div id="refLink" style="color:#7c3aed;font-weight:700;font-size:11px;word-break:break-all;margin:8px 0"></div><button class="btn" style="background:#fff;color:#7c3aed;border:1px solid #e2e8f0" onclick="navigator.clipboard.writeText(document.getElementById('refLink').innerText);alert('Copied!')">📋 Copy Link - Earn 100</button></div>
-  <div id="taskArea" class="card" style="background:#fff;color:#000;display:none"></div>
-</div>
-
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>STARLIFE AGENCIES</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}body{background:#f1f5f9}.header{background:#7c3aed;color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}.main{padding:14px;max-width:480px;margin:0 auto}.card{border-radius:24px;padding:18px;color:#fff;margin-bottom:14px}.purple{background:linear-gradient(135deg,#4c1d95,#7c3aed)}.blue{background:linear-gradient(135deg,#1e40af,#3b82f6)}.green{background:linear-gradient(135deg,#065f46,#10b981)}.orange{background:linear-gradient(135deg,#ea580c,#fb923c)}.input{width:100%;padding:13px;border-radius:12px;border:1px solid #e2e8f0;margin-bottom:10px;font-size:15px}.btn{width:100%;padding:14px;background:#7c3aed;color:#fff;border:none;border-radius:14px;font-weight:800;cursor:pointer}.modal{position:fixed;inset:0;background:rgba(15,23,42,0.95);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px}.box{background:#fff;border-radius:24px;padding:22px;width:100%;max-width:400px;color:#000}.tab{display:flex;background:#f1f5f9;border-radius:12px;padding:4px;margin-bottom:14px}.tab div{flex:1;text-align:center;padding:10px;border-radius:10px;cursor:pointer;font-weight:700}.tab.active{background:#7c3aed;color:#fff}.side{position:fixed;top:0;left:-300px;width:280px;height:100%;background:#fff;z-index:99998;transition:0.3s;overflow-y:auto}.sideItem{padding:14px 20px;border-bottom:1px solid #f1f5f9;cursor:pointer}</style>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, query, where, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+const firebaseConfig = { apiKey: "AIzaSyDemoStarlifeDemo123456", authDomain: "starlife-agencies.firebaseapp.com", projectId: "starlife-agencies", storageBucket: "starlife-agencies.appspot.com", messagingSenderId: "123456789", appId: "1:123456789:web:abcdef" };
+const app = initializeApp(firebaseConfig); const db = getFirestore(app); window.db=db; window.fs={doc,setDoc,getDoc,collection,addDoc,getDocs,query,where,updateDoc};
+</script>
+</head><body>
+<div id="authModal" class="modal"><div class="box"><h2 style="color:#7c3aed;text-align:center">⭐ STARLIFE</h2><div class="tab"><div id="tLogin" class="active" onclick="switchTab('login')">Login</div><div id="tReg" onclick="switchTab('reg')">Sign Up</div></div>
+<div id="loginForm"><input id="lUser" class="input" placeholder="Username"><input id="lPass" class="input" type="password" placeholder="Password"><button class="btn" onclick="doLogin()">LOG IN</button></div>
+<div id="regForm" style="display:none"><input id="rFull" class="input" placeholder="Full Name"><input id="rUser" class="input" placeholder="Username"><input id="rEmail" class="input" placeholder="Email"><input id="rPhone" class="input" placeholder="Phone 07..."><input id="rPass" class="input" type="password" placeholder="Password"><input id="rPass2" class="input" type="password" placeholder="Confirm"><button class="btn" onclick="doRegister()">SIGN UP</button></div>
+</div></div>
+<div id="actModal" class="modal" style="display:none"><div class="box"><h2 style="color:#7c3aed">Activate Account</h2><div style="background:#f5f3ff;border-radius:12px;padding:12px;margin:10px 0"><b>STARLIFE AGENCIES</b><br>Paybill: <b>714777</b><br>Account: <b>440200282954</b><br>Amount: <b>KES 500</b></div><input id="mpesaCode" class="input" placeholder="M-Pesa Code"><button class="btn" onclick="submitActivation()">Submit & Wait Approval</button><p id="actStatus" style="margin-top:10px;color:#10b981"></p></div></div>
+<div class="header"><span onclick="openSide()">☰</span><b>STARLIFE AGENCIES</b><span>👤</span></div>
+<div id="side" class="side"><div style="background:#7c3aed;color:#fff;padding:20px;display:flex;justify-content:space-between"><b>⭐ STARLIFE</b><span onclick="closeSide()">✕</span></div><div class="sideItem">🏠 Dashboard</div><div class="sideItem" onclick="closeSide();document.getElementById('withdrawSec').scrollIntoView({behavior:'smooth'})">💳 Withdraw</div><div class="sideItem">👆 Click & Earn</div><div class="sideItem">▶️ YouTube 15s</div><div class="sideItem">🎵 TikTok 15s</div><div class="sideItem">🔢 Maths</div><div class="sideItem">❓ Trivia</div><div class="sideItem">🎯 Spin & Earn</div><div class="sideItem">📈 Forex Classes</div><div class="sideItem">🏆 Leaderboard</div></div><div id="overlay" onclick="closeSide()" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99997;display:none"></div>
+<div class="main"><div style="margin:10px 4px"><small style="color:#64748b">Welcome,</small><b id="uName" style="font-size:32px;display:block;color:#0f172a">...</b><small id="uFull" style="color:#64748b"></small></div>
+<div class="card blue"><h4>ACTIVE BALANCE <span id="refC" style="float:right;font-size:11px;background:rgba(255,255,255,.3);padding:4px 8px;border-radius:10px">0 REF</span></h4><b id="aBal" style="font-size:36px;display:block;margin:10px 0">KES 0</b></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px"><div class="card green" style="margin:0"><small>TOTAL WITHDRAWN</small><b id="tBal" style="font-size:22px;display:block">KES 0</b></div><div class="card orange" style="margin:0"><small>PENDING</small><b id="pBal" style="font-size:22px;display:block">KES 0</b></div></div>
+<div id="withdrawSec" class="card" style="background:#fff;color:#000"><b>WITHDRAW</b><select id="wType" class="input" style="margin-top:10px"><option value="activity">Activity Balance</option><option value="balance">Main Balance</option></select><input id="wAmt" type="number" class="input" placeholder="Amount min 300"><input id="wPhone" class="input" placeholder="M-Pesa Number"><button class="btn" onclick="doWithdraw()">Withdraw for Approval</button><div id="hist" style="margin-top:10px"></div></div>
+<div class="card" style="background:#fff;color:#000"><b>YOUR LINK</b><div id="refLink" style="color:#7c3aed;font-weight:700;font-size:11px;word-break:break-all;margin:8px 0"></div><button class="btn" style="background:#fff;color:#7c3aed;border:1px solid #e2e8f0" onclick="navigator.clipboard.writeText(document.getElementById('refLink').innerText);alert('Copied!')">Copy Link</button></div></div>
 <script>
-function openSide(){document.getElementById('side').style.left='0';document.getElementById('overlay').style.display='block';}
-function closeSide(){document.getElementById('side').style.left='-300px';document.getElementById('overlay').style.display='none';}
-function switchTab(t){if(t=='login'){document.getElementById('loginForm').style.display='block';document.getElementById('regForm').style.display='none';document.getElementById('tLogin').classList.add('active');document.getElementById('tReg').classList.remove('active');}else{document.getElementById('loginForm').style.display='none';document.getElementById('regForm').style.display='block';document.getElementById('tLogin').classList.remove('active');document.getElementById('tReg').classList.add('active');}}
-
-let params=new URLSearchParams(location.search); let refBy=params.get('ref');
-let currentUser=null;
-
-function getUsers(){return JSON.parse(localStorage.getItem('sl_users')||'[]');}
-function saveUsers(u){localStorage.setItem('sl_users',JSON.stringify(u));}
-
-function doRegister(){
-  let full=document.getElementById('rFull').value.trim(), user=document.getElementById('rUser').value.trim().toLowerCase(), email=document.getElementById('rEmail').value.trim(), phone=document.getElementById('rPhone').value.trim(), p1=document.getElementById('rPass').value, p2=document.getElementById('rPass2').value;
-  if(!full||!user||!phone||!p1)return alert('Fill all fields');
-  if(p1!==p2)return alert('Passwords not match');
-  let users=getUsers(); if(users.find(x=>x.username===user))return alert('Username taken');
-  let newUser={full,username:user,email,phone,password:p1,active:false,bal:0,tot:0,pen:0,actBal:0,refBy:refBy||null};
-  users.push(newUser); saveUsers(users);
-  // referral
-  if(refBy){let all=JSON.parse(localStorage.getItem('starlife_referrals')||'[]'); if(!all.find(r=>r.newUser===phone&&r.referrer===refBy)){all.push({referrer:refBy,newUser:phone,newUserName:user,date:new Date().toISOString(),amount:100}); localStorage.setItem('starlife_referrals',JSON.stringify(all));}}
-  localStorage.setItem('sl_current',user); currentUser=newUser; checkAuth();
-}
-
-function doLogin(){
-  let user=document.getElementById('lUser').value.trim().toLowerCase(), pass=document.getElementById('lPass').value;
-  let users=getUsers(); let u=users.find(x=>x.username===user && x.password===pass);
-  if(!u)return alert('Wrong username or password');
-  localStorage.setItem('sl_current',user); currentUser=u; checkAuth();
-}
-
-function submitActivation(){
-  let code=document.getElementById('mpesaCode').value.trim(); if(!code)return alert('Enter Transaction Code');
-  let acts=JSON.parse(localStorage.getItem('sl_activations')||'[]');
-  acts.push({username:currentUser.username,phone:currentUser.phone,code,date:new Date().toISOString(),status:'pending'});
-  localStorage.setItem('sl_activations',JSON.stringify(acts));
-  document.getElementById('actStatus').innerText='✅ Submitted! Wait admin to approve your account.';
-}
-
-function checkAuth(){
-  let cur=localStorage.getItem('sl_current'); if(!cur){document.getElementById('authModal').style.display='flex'; return;}
-  let users=getUsers(); let u=users.find(x=>x.username===cur); if(!u){document.getElementById('authModal').style.display='flex'; return;}
-  currentUser=u; document.getElementById('authModal').style.display='none';
-  if(!u.active){
-    // check if admin approved
-    let acts=JSON.parse(localStorage.getItem('sl_activations')||'[]'); let myAct=acts.find(a=>a.username===u.username && a.status==='approved');
-    if(myAct){u.active=true; saveUsers(users);} else {document.getElementById('actModal').style.display='flex'; return;}
-  }
-  document.getElementById('actModal').style.display='none'; loadDash();
-}
-
-function loadDash(){
-  let users=getUsers(); let u=users.find(x=>x.username===currentUser.username);
-  // referrals
-  let all=JSON.parse(localStorage.getItem('starlife_referrals')||'[]'); let mine=all.filter(r=>r.referrer===u.phone).length;
-  let credited=parseInt(localStorage.getItem('sl_ref_credited_'+u.username)||'0');
-  if(mine*100>credited){u.actBal+=(mine*100-credited); localStorage.setItem('sl_ref_credited_'+u.username,mine*100); saveUsers(users);}
-  document.getElementById('uName').innerText=u.username+' 👋';
-  document.getElementById('uFull').innerText=u.full+' • '+u.phone;
-  document.getElementById('aBal').innerText='KES '+u.actBal;
-  document.getElementById('tBal').innerText='KES '+u.tot;
-  document.getElementById('pBal').innerText='KES '+u.pen;
-  document.getElementById('refC').innerText=mine+' REFERRALS';
-  document.getElementById('refLink').innerText='https://starlifewins.github.io/?ref='+u.phone;
-  document.getElementById('wPhone').value=u.phone;
-  let reqs=JSON.parse(localStorage.getItem('starlife_withdraw_requests')||'[]'); let myReqs=reqs.filter(r=>r.username===u.username);
-  document.getElementById('hist').innerHTML=myReqs.slice().reverse().map(r=>`<div style="background:#f8fafc;border-radius:10px;padding:10px;margin-bottom:6px;display:flex;justify-content:space-between"><div><b>KES ${r.amount}</b> (${r.type})<br><small>${r.id}</small></div><b style="color:${r.status=='pending'?'orange':'green'}">${r.status.toUpperCase()}</b></div>`).join('')||'<small style=color:#94a3b8>No history</small>';
-}
-
-function doWithdraw(){
-  let amt=parseInt(document.getElementById('wAmt').value), type=document.getElementById('wType').value, phone=document.getElementById('wPhone').value;
-  if(!amt||amt<300)return alert('Min 300'); let users=getUsers(); let u=users.find(x=>x.username===currentUser.username);
-  if(type==='activity' && amt>u.actBal)return alert('Low activity balance'); if(type==='balance' && amt>(u.bal||0))return alert('Low balance');
-  let id='SL'+Date.now().toString().slice(-6); let reqs=JSON.parse(localStorage.getItem('starlife_withdraw_requests')||'[]');
-  reqs.push({id,username:u.username,phone,type,amount:amt,status:'pending',date:new Date().toISOString()}); localStorage.setItem('starlife_withdraw_requests',JSON.stringify(reqs));
-  if(type==='activity')u.actBal-=amt; else u.bal-=amt; u.pen+=amt; saveUsers(users); loadDash(); alert('Withdraw Sent '+id+' Wait admin approval');
-}
-
-function earn(type){
-  let ta=document.getElementById('taskArea'); ta.style.display='block'; ta.scrollIntoView({behavior:'smooth'});
-  if(type==='youtube'){ta.innerHTML=`<b>▶️ YouTube - Watch 15s & Earn 20</b><div style="background:#000;height:160px;border-radius:12px;margin:10px 0;display:flex;align-items:center;justify-content:center;color:#fff">Video Playing... <span id="cd">15</span>s</div><button id="claimBtn" class="btn" disabled>Watching...</button>`; let c=15; let iv=setInterval(()=>{c--;document.getElementById('cd').innerText=c; if(c<=0){clearInterval(iv);let b=document.getElementById('claimBtn'); b.disabled=false; b.innerText='Claim KES 20'; b.onclick=()=>{let users=getUsers(); let u=users.find(x=>x.username===currentUser.username); u.actBal+=20; saveUsers(users); loadDash(); ta.style.display='none'; alert('+20 Added!');};}},1000);}
-  else if(type==='tiktok'){earn('youtube');}
-  else {let amt=type==='click'?10:type==='spin'?50:type==='trivia'?15:20; ta.innerHTML=`<b>${type.toUpperCase()} - Earn ${amt}</b><p style="margin:10px 0;color:#64748b">Click to earn</p><button class="btn" onclick="let users=getUsers(); let u=users.find(x=>x.username===currentUser.username); u.actBal+=${amt}; saveUsers(users); loadDash(); document.getElementById('taskArea').style.display='none'; alert('+${amt} Added!')">Claim KES ${amt}</button>`;}
-}
-
-function logout(){localStorage.removeItem('sl_current');location.reload();}
+function openSide(){document.getElementById('side').style.left='0';document.getElementById('overlay').style.display='block';}function closeSide(){document.getElementById('side').style.left='-300px';document.getElementById('overlay').style.display='none';}
+function switchTab(t){if(t=='login'){loginForm.style.display='block';regForm.style.display='none';tLogin.classList.add('active');tReg.classList.remove('active');}else{loginForm.style.display='none';regForm.style.display='block';tLogin.classList.remove('active');tReg.classList.add('active');}}
+let params=new URLSearchParams(location.search);let refBy=params.get('ref');let curUser=null;
+async function doRegister(){let full=rFull.value.trim(),user=rUser.value.trim().toLowerCase(),email=rEmail.value.trim(),phone=rPhone.value.trim(),p1=rPass.value,p2=rPass2.value;if(!full||!user||!phone||!p1)return alert('Fill all');if(p1!==p2)return alert('Passwords mismatch');let snap=await fs.getDoc(fs.doc(db,"users",user));if(snap.exists())return alert('Username taken');let data={full,username:user,email,phone,password:p1,active:false,bal:0,actBal:0,tot:0,pen:0,refBy:refBy||null,created:new Date().toISOString()};await fs.setDoc(fs.doc(db,"users",user),data);if(refBy){await fs.addDoc(fs.collection(db,"referrals"),{referrer:refBy,newUser:phone,newUserName:user,amount:100,date:new Date().toISOString()});}localStorage.setItem('sl_current',user);location.reload();}
+async function doLogin(){let user=lUser.value.trim().toLowerCase(),pass=lPass.value;let snap=await fs.getDoc(fs.doc(db,"users",user));if(!snap.exists()||snap.data().password!==pass)return alert('Wrong login');localStorage.setItem('sl_current',user);location.reload();}
+async function submitActivation(){let code=mpesaCode.value.trim();if(!code)return alert('Enter code');await fs.addDoc(fs.collection(db,"activations"),{username:curUser.username,phone:curUser.phone,code,status:'pending',date:new Date().toISOString()});actStatus.innerText='✅ Sent! Wait admin approval';}
+async function checkAuth(){let cur=localStorage.getItem('sl_current');if(!cur){authModal.style.display='flex';return;}let snap=await fs.getDoc(fs.doc(db,"users",cur));if(!snap.exists()){authModal.style.display='flex';return;}curUser=snap.data();if(!curUser.active){let q=await fs.getDocs(fs.query(fs.collection(db,"activations"),fs.where("username","==",curUser.username),fs.where("status","==","approved")));if(q.docs.length>0){await fs.updateDoc(fs.doc(db,"users",cur),{active:true});curUser.active=true;}else{authModal.style.display='none';actModal.style.display='flex';return;}}authModal.style.display='none';actModal.style.display='none';loadDash();}
+async function loadDash(){uName.innerText=curUser.username+' 👋';uFull.innerText=curUser.full+' • '+curUser.phone;aBal.innerText='KES '+curUser.actBal;tBal.innerText='KES '+curUser.tot;pBal.innerText='KES '+curUser.pen;refLink.innerText='https://starlifewins.github.io/?ref='+curUser.phone;wPhone.value=curUser.phone;let q=await fs.getDocs(fs.query(fs.collection(db,"referrals"),fs.where("referrer","==",curUser.phone)));let mine=q.docs.length;let credited=parseInt(localStorage.getItem('credited_'+curUser.username)||'0');if(mine*100>credited){let diff=mine*100-credited;await fs.updateDoc(fs.doc(db,"users",curUser.username),{actBal:curUser.actBal+diff});localStorage.setItem('credited_'+curUser.username,mine*100);curUser.actBal+=diff;aBal.innerText='KES '+curUser.actBal;}refC.innerText=mine+' REF';let wq=await fs.getDocs(fs.query(fs.collection(db,"withdrawals"),fs.where("username","==",curUser.username)));hist.innerHTML=wq.docs.reverse().map(d=>{let r=d.data();return `<div style="background:#f8fafc;padding:8px;border-radius:8px;margin-bottom:6px;display:flex;justify-content:space-between"><div><b>KES ${r.amount}</b><br><small>${r.id}</small></div><b style="color:${r.status=='pending'?'orange':'green'}">${r.status}</b></div>`}).join('')||'<small>No history</small>';}
+async function doWithdraw(){let amt=parseInt(wAmt.value),type=wType.value,phone=wPhone.value;if(!amt||amt<300)return alert('Min 300');if(type=='activity'&&amt>curUser.actBal)return alert('Low balance');let id='SL'+Date.now().toString().slice(-6);await fs.addDoc(fs.collection(db,"withdrawals"),{id,username:curUser.username,phone,type,amount:amt,status:'pending',date:new Date().toISOString()});let upd={};if(type=='activity')upd.actBal=curUser.actBal-amt;else upd.bal=curUser.bal-amt;upd.pen=curUser.pen+amt;await fs.updateDoc(fs.doc(db,"users",curUser.username),upd);alert('Sent '+id);location.reload();}
 checkAuth();
 </script></body></html>
