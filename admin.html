@@ -1,14 +1,52 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin REAL - STARLIFE</title><style>body{background:#0f172a;color:#fff;font-family:system-ui;padding:14px}.card{background:#1e293b;padding:12px;border-radius:12px;margin-bottom:10px;border:1px solid #334155}button{padding:10px 14px;border:none;border-radius:8px;color:#fff;font-weight:800;cursor:pointer;margin-right:6px}</style></head><body><h2>⭐ STARLIFE ADMIN - REAL DATABASE</h2><p style="color:#94a3b8">Link: https://api.npoint.io/6a0d3448a56621e390fd<br>Activation: KES 150 | Withdraw Min: KES 300</p><button onclick="load()" style="background:#7c3aed;padding:12px 20px;margin:10px 0">🔄 Refresh - Check New Clients</button><h3 style="color:#a78bfa;margin-top:15px">🟡 Activations Pending</h3><div id="acts"></div><h3 style="color:#a78bfa;margin-top:20px">💸 Withdrawals Pending</h3><div id="list"></div><script>
-const API="https://api.npoint.io/6a0d3448a56621e390fd";
-async function getDB(){let r=await fetch(API);return await r.json();}
-async function saveDB(db){await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(db)});}
-async function load(){
-let db=await getDB();
-acts.innerHTML=db.activations.slice().reverse().map((a,i)=>{let idx=db.activations.length-1-i;return `<div class=card><b style="font-size:16px">${a.username.toUpperCase()}</b> - ${a.phone}<br>Code: <b style="color:#facc15;font-size:16px">${a.code}</b> - Status: <b style="color:${a.status=='pending'?'orange':'#10b981'}">${a.status.toUpperCase()}</b><br>${a.status=='pending'?`<button onclick="approveAct(${idx})" style="background:#10b981;margin-top:8px">✅ Approve & Activate - KES 150</button>`:''}<br><small style="color:#64748b">${a.date}</small></div>`}).join('')||'<div class=card>No activations yet</div>';
-list.innerHTML=db.withdrawals.slice().reverse().map((r,i)=>{let idx=db.withdrawals.length-1-i;return `<div class=card><b>${r.username}</b> - KES ${r.amount} (${r.type})<br>Phone: ${r.phone} - <b style="color:${r.status=='pending'?'orange':'#10b981'}">${r.status.toUpperCase()}</b><br>${r.status=='pending'?`<button onclick="approveW(${idx})" style="background:#10b981;margin-top:8px">✅ Approve Paid</button><button onclick="rejectW(${idx})" style="background:#ef4444;margin-top:8px">❌ Reject & Refund</button>`:''}<br><small style="color:#64748b">${r.date} | ${r.id}</small></div>`}).join('')||'<div class=card>No withdrawals yet</div>';
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ADMIN</title>
+<style>
+body{background:#000;color:#fff;font-family:system-ui;padding:10px}
+.box{background:#131a33;padding:15px;border-radius:12px;max-width:500px;margin:auto}
+button{width:100%;padding:13px;margin:6px 0;border:none;border-radius:8px;background:#6a5cff;color:#fff;font-weight:800;font-size:16px}
+.card{background:#1d264d;padding:12px;border-radius:8px;margin:10px 0}
+</style>
+</head>
+<body>
+<div class="box">
+<h2 style="text-align:center;color:#6a5cff">STARLIFE ADMIN</h2>
+<button onclick="load()">🔄 REFRESH PENDING</button>
+<div id="list" style="margin-top:15px"></div>
+</div>
+
+<script>
+function G(){ return JSON.parse(localStorage.getItem('S')||'[]'); }
+function S(v){ localStorage.setItem('S',JSON.stringify(v)); }
+
+function load(){
+ var a = G();
+ var p = a.filter(x=>x.paid==1 && x.ap!=1);
+ var el = document.getElementById('list');
+ if(p.length==0){
+   el.innerHTML = '<p style="text-align:center;color:#aaa">No pending payments on this phone.</p>';
+   return;
+ }
+ var html = '';
+ for(var i=0;i<p.length;i++){
+   var x = p[i];
+   html += '<div class="card"><b>'+x.f+'</b> ('+x.u+')<br>Phone: '+x.ph+'<br>CODE: <b style="color:yellow;font-size:18px">'+x.mc+'</b><br><br><button onclick="approveUser(\''+x.u+'\')">✅ APPROVE KSh 200</button></div>';
+ }
+ el.innerHTML = html;
 }
-async function approveAct(idx){let db=await getDB();let a=db.activations[idx];a.status='approved';let u=db.users.find(x=>x.username===a.username);if(u)u.active=true;await saveDB(db);alert('✅ Approved '+a.username+' - Now active!');load();}
-async function approveW(idx){let db=await getDB();let r=db.withdrawals[idx];r.status='approved';let u=db.users.find(x=>x.username===r.username);if(u){u.tot+=r.amount;u.pen-=r.amount;}await saveDB(db);alert('✅ Withdraw approved');load();}
-async function rejectW(idx){let db=await getDB();let r=db.withdrawals[idx];r.status='rejected';let u=db.users.find(x=>x.username===r.username);if(u){if(r.type=='activity')u.actBal+=r.amount;else u.bal=(u.bal||0)+r.amount;u.pen-=r.amount;}await saveDB(db);alert('❌ Rejected & refunded');load();}
+
+function approveUser(u){
+ var a = G();
+ for(var i=0;i<a.length;i++){ if(a[i].u==u){ a[i].ap=1; if(a[i].ref){ for(var j=0;j<a.length;j++){ if(a[j].u==a[i].ref){ a[j].bal=(a[j].bal||0)+100; } } } } }
+ S(a);
+ alert(u + ' APPROVED!');
+ load();
+}
+
 load();
-</script></body></html>
+</script>
+</body>
+</html>
