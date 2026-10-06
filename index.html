@@ -1,140 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Starlife</title>
-<style>
-body{background:#0a0e1f;color:#fff;font-family:system-ui;padding:10px}
-.box{background:#131a33;padding:15px;border-radius:10px;margin-top:10px}
-input{width:100%;padding:12px;margin:6px 0;border-radius:6px;border:none}
-button{width:100%;padding:12px;margin:6px 0;border-radius:6px;background:#6a5cff;color:#fff;font-weight:800;border:none}
-.hide{display:none}
-</style>
-</head>
-<body>
-<div class="box">
-<h2>STARLIFE AGENCIES</h2>
-<div id="signupBox">
-<input id="userName" placeholder="Username">
-<input id="passWord" type="password" placeholder="Password">
-<button id="btnSignup">SIGN UP - CLICK HERE</button>
-<button id="btnLogin">LOGIN admin / admin123</button>
-<p id="msg" style="color:#0f0"></p>
+<!DOCTYPE html><html><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><title>STARLIFE AGENCIES</title><style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#080d27;color:#fff;display:flex}
+.sd{width:275px;background:#0e1330;position:fixed;height:100vh;overflow:auto;padding:12px;border-right:1px solid #1c2550;z-index:99;transition:.3s}
+.mn div{padding:9px 11px;border-radius:9px;margin:2px 0;cursor:pointer;color:#7a8ab0;font-size:13px}
+.mn div.a{background:#5a33ff;color:#fff;font-weight:700}
+.main{margin-left:275px;flex:1;background:#080d27;min-height:100vh}
+.tb{padding:10px 16px;display:flex;justify-content:flex-end;gap:10px;align-items:center;border-bottom:1px solid #1c2550;background:#0e1330}
+.cr{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:12px}
+.ca{border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,.08)}
+.row{display:grid;grid-template-columns:1.5fr.9fr;gap:10px;padding:0 12px;margin-bottom:10px}
+.bx{background:#121840;border:1px solid #1e2a5a;border-radius:10px;padding:12px;margin-bottom:10px}
+.btn{padding:8px;border:none;border-radius:7px;background:#5a33ff;color:#fff;font-weight:700;width:100%;margin:3px 0;cursor:pointer}
+.sec{display:none}.sec.ac{display:block}
+input{width:100%;padding:8px;background:#0a1028;border:1px solid #1e2a5a;color:#fff;border-radius:6px;margin:3px 0}
+table{width:100%;font-size:11px;border-collapse:collapse}th{color:#7a8ab0;text-align:left;padding:5px 0;font-size:10px}td{padding:6px 0;border-top:1px solid rgba(255,255,255,.06)}.st{background:#0a4d2e;color:#1ecfa0;padding:2px 6px;border-radius:8px;font-size:9px}
+.qa{display:flex;flex-direction:column;gap:6px}.qa button{padding:8px;border:none;border-radius:7px;color:#fff;font-weight:600;font-size:11px;text-align:left}
+@media(max-width:1100px){.cr{grid-template-columns:1fr 1fr}.row{grid-template-columns:1fr}}
+@media(max-width:900px){.sd{transform:translateX(-100%)}.sd.o{transform:translateX(0)}.main{margin-left:0}}
+</style></head><body>
+<div class=sd id=sd><h3 style=color:#a78bfa>⭐ STARLIFE AGENCIES</h3><small style=color:#7a8ab0;font-size:11px>Affiliate Program</small><div class=mn style=margin-top:10px><div class=a data-g=dash>🏠 Dashboard</div><div data-g=click>🖱️ Clink and Earn</div><div data-g=yt>▶️ YouTube Videos</div><div data-g=tk>🎵 TikTok Videos</div><div data-g=ig>📸 Instagram Reels</div><div data-g=math>➗ Maths 10Q</div><div data-g=triv>🧠 Trivia 10Q</div><div data-g=avi>✈️ Aviator</div><div data-g=forex>📈 Forex</div><div data-g=odds>⚽ Sure Odds</div><div data-g=payc>💳 Pay Client</div><div data-g=team>👥 Team</div><div style=border-top:1px solid #1e2a5a;margin:8px 0></div><b style=color:#fff;font-size:10px;padding:5px>WITHDRAWALS</b><div data-g=wbal>💰 Withdraw Balance</div><div data-g=wyt>▶️ W YouTube</div><div data-g=wtk>🎵 W TikTok</div><div data-g=wig>📸 W Instagram</div><div data-g=wact>🎯 W Activity</div><div id=lo style=background:#3a1020;color:#ff6b6b;margin-top:8px>Logout</div></div></div>
+<div class=main><div class=tb><span id=tg style=background:#1a244e;padding:6px 10px;border-radius:8px;cursor:pointer;margin-right:auto>☰</span><span style=position:relative>🔔<span style=position:absolute;top:-6px;right:-6px;background:red;font-size:9px;padding:1px 4px;border-radius:50%>3</span></span><div style=background:#7a8ab0;width:28px;height:28px;border-radius:50%></div><div style=text-align:left><b style=font-size:12px>Abraham Koech</b><br><small style=color:#7a8ab0;font-size:10px>Affiliate Member</small></div></div>
+<div id=dash class="sec ac">
+<div style=padding:12px;display:flex;justify-content:space-between;align-items:center><div><h2>👋 Welcome back, Abraham!</h2><small style=color:#7a8ab0;font-size:11px>Track your progress, grow your network and earn more.</small></div><div class=bx style=margin:0;padding:6px 10px;display:flex;gap:6px;align-items:center><span>📅</span><div><small style=font-size:9px;color:#7a8ab0>Today</small><br><small style=font-size:10px>Oct 6, 2025</small></div></div></div>
+<div class=cr>
+<div class=ca style=background:linear-gradient(135deg,#4a2bc2,#2d1a7a)><small>Total Referrals</small><b style=font-size:22px;margin:6px 0>12</b><small style=color:#4ade80>↑ +3 this week</small></div>
+<div class=ca style=background:linear-gradient(135deg,#1e4bb5,#15367f)><small>Total Commission Earned</small><b style=font-size:18px;margin:4px 0>KES 4,850</b><small style=color:#4ade80;font-size:10px>↑ +KES 1,200 this week</small></div>
+<div class=ca style=background:linear-gradient(135deg,#0f6b5a,#0a4d41)><small>Available Balance</small><b id=bt style=font-size:18px;margin:4px 0>KES 3,200</b><button id=gw style=background:#1ecfa0;border:none;padding:4px 10px;border-radius:10px;color:#000;font-weight:700;font-size:10px>Withdraw</button></div>
+<div class=ca style=background:linear-gradient(135deg,#b56a0a,#8a4f08)><small>Commission Level</small><b style=font-size:18px;margin:4px 0>Level 1</b><small style=font-size:10px>Next level: 25 referrals</small></div>
 </div>
-<div id="mpesaBox" class="hide">
-<input id="mpesaCode" placeholder="M-PESA CODE">
-<button id="btnMpesa">SUBMIT CODE</button>
+<div class=row>
+<div class=bx><h3>📊 Your Earnings Overview <span style=margin-left:auto;font-size:10px;color:#7a8ab0;border:1px solid #1e2a5a;padding:2px 6px;border-radius:6px>Last 7 Days</span></h3>
+<div style=height:160px;position:relative;margin-top:8px><svg viewBox="0 0 400 130" style=width:100%;height:100%><line x1=40 y1=10 x2=40 y2=110 stroke=#1e2a5a /><line x1=40 y1=110 x2=390 y2=110 stroke=#1e2a5a /><polyline fill=none stroke=#7c5cff stroke-width=2 points="40,90 110,80 180,45 250,70 310,35 360,45 390,15"/><circle cx=390 cy=15 r=3 fill=#7c5cff /></svg><div style=position:absolute;left:0;top:0;font-size:9px;color:#7a8ab0;display:flex;flex-direction:column;gap:18px><span>5,000</span><span>4,000</span><span>3,000</span><span>2,000</span><span>1,000</span></div><div style=position:absolute;bottom:0;left:40px;right:0;display:flex;justify-content:space-between;font-size:8px;color:#7a8ab0><span>Sep30</span><span>Oct1</span><span>Oct2</span><span>Oct3</span><span>Oct4</span><span>Oct5</span><span>Oct6</span></div></div>
 </div>
-<div id="waitBox" class="hide">
-<b id="codeShow"></b>
-<p>Waiting Admin Approval...</p>
-<button id="btnCheck">CHECK IF APPROVED</button>
+<div class=bx><h3>👥 Referral Commission Structure</h3><div style=display:flex;flex-direction:column;gap:8px;margin-top:8px><div style=display:flex;align-items:center;gap:8px><span style=background:#a855f7;padding:4px 8px;border-radius:6px;font-size:10px>Level 1</span><b style=width:30px;font-size:12px>10%</b><small style=color:#7a8ab0;font-size:10px>You earn 10% from direct.</small></div><div style=display:flex;align-items:center;gap:8px><span style=background:#38bdf8;padding:4px 8px;border-radius:6px;font-size:10px>Level 2</span><b style=width:30px;font-size:12px>5%</b><small style=color:#7a8ab0;font-size:10px>You earn 5% from referrals' referrals.</small></div><div style=display:flex;align-items:center;gap:8px><span style=background:#22c55e;padding:4px 8px;border-radius:6px;font-size:10px>Level 3</span><b style=width:30px;font-size:12px>3%</b><small style=color:#7a8ab0;font-size:10px>You earn 3% from level 3.</small></div></div><div style=background:#1a1040;border-radius:8px;padding:8px;margin-top:10px;display:flex;gap:8px><span>⭐</span><div><small style=font-size:10px;font-weight:700>The more you refer, the more you earn!</small><br><small style=color:#7a8ab0;font-size:9px>Build your team and enjoy lifetime commissions.</small></div></div></div>
 </div>
-<div id="dashBox" class="hide">
-<h3 id="helloUser"></h3>
-<button id="btnLogout">Logout Clear</button>
-<p id="refLink" style="color:#0f0;font-size:11px;word-break:break-all"></p>
-<div id="adminBox" class="hide">
-<h4>ADMIN PANEL</h4>
-<button id="btnAct">Show Activations</button>
-<button id="btnWith">Show Withdraws</button>
-<div id="listAct"></div>
-<div id="listWith"></div>
-</div>
-<input id="withAmount" type="number" placeholder="Amount min 300">
-<input id="withPhone" placeholder="M-Pesa Phone">
-<button id="btnWithReq">REQUEST WITHDRAW</button>
-<div id="withHistory"></div>
-</div>
-</div>
-<script>
-function getUsers(){try{return JSON.parse(localStorage.getItem('users')||'[]')}catch(e){return[]}}
-function saveUsers(u){localStorage.setItem('users',JSON.stringify(u))}
-function getW(){try{return JSON.parse(localStorage.getItem('wd')||'[]')}catch(e){return[]}}
-function saveW(w){localStorage.setItem('wd',JSON.stringify(w))}
-
-document.getElementById('btnSignup').addEventListener('click',function(){
-var b=document.getElementById('userName').value.trim();
-var pw=document.getElementById('passWord').value.trim();
-document.getElementById('msg').innerText='Trying '+b+'...';
-if(!b||!pw){alert('Enter username & password');return}
-var U=getUsers();
-for(var i=0;i<U.length;i++){if(U[i].f==b){alert('Username taken, login');return}}
-var ref = new URLSearchParams(window.location.search).get('ref');
-U.push({f:b,pw:pw,ac:0,paid:0,ex:4250,mc:'',r:ref});
-saveUsers(U);
-localStorage.setItem('current',b);
-alert('Account '+b+' created! Now enter M-PESA CODE');
-document.getElementById('signupBox').classList.add('hide');
-document.getElementById('mpesaBox').classList.remove('hide');
-});
-
-document.getElementById('btnMpesa').addEventListener('click',function(){
-var code=document.getElementById('mpesaCode').value.trim().toUpperCase();
-if(code.length<4){alert('Enter CODE');return}
-var U=getUsers();var cur=localStorage.getItem('current');
-var me=null;for(var i=0;i<U.length;i++){if(U[i].f==cur){me=U[i]}}
-if(!me){alert('No user found, signup again');return}
-me.mc=code;me.paid=1;saveUsers(U);
-document.getElementById('mpesaBox').classList.add('hide');
-document.getElementById('waitBox').classList.remove('hide');
-document.getElementById('codeShow').innerText='CODE: '+code;
-});
-
-document.getElementById('btnCheck').addEventListener('click',function(){
-var U=getUsers();var cur=localStorage.getItem('current');
-var me=null;for(var i=0;i<U.length;i++){if(U[i].f==cur){me=U[i]}}
-if(me&&me.ac){document.getElementById('waitBox').classList.add('hide');document.getElementById('dashBox').classList.remove('hide');loadDash()}else{alert('Still pending: '+(me?me.mc:'')+' - Admin not approved yet')}
-});
-
-document.getElementById('btnLogin').addEventListener('click',function(){
-var b=document.getElementById('userName').value.trim();
-var pw=document.getElementById('passWord').value.trim();
-if(b=='admin'&&pw=='admin123'){localStorage.setItem('current','admin');document.getElementById('signupBox').classList.add('hide');document.getElementById('dashBox').classList.remove('hide');document.getElementById('adminBox').classList.remove('hide');loadDash();alert('ADMIN OK');return}
-var U=getUsers();var found=null;for(var i=0;i<U.length;i++){if(U[i].f==b&&U[i].pw==pw){found=U[i]}}
-if(!found){alert('Wrong username/password - Signup first');return}
-localStorage.setItem('current',found.f);
-if(!found.paid){document.getElementById('signupBox').classList.add('hide');document.getElementById('mpesaBox').classList.remove('hide')}
-else if(!found.ac){document.getElementById('signupBox').classList.add('hide');document.getElementById('waitBox').classList.remove('hide');document.getElementById('codeShow').innerText='CODE: '+found.mc}
-else{document.getElementById('signupBox').classList.add('hide');document.getElementById('dashBox').classList.remove('hide');loadDash()}
-});
-
-function loadDash(){
-var c=localStorage.getItem('current');
-document.getElementById('helloUser').innerText=c;
-if(c!='admin'){document.getElementById('refLink').innerText=location.origin+location.pathname+'?ref='+c}
-var wh='';var W=getW();for(var i=0;i<W.length;i++){if(W[i].user==c){wh+=W[i].amt+' '+W[i].status+'<br>'}}
-document.getElementById('withHistory').innerHTML=wh||'No withdraws';
-}
-document.getElementById('btnLogout').addEventListener('click',function(){localStorage.removeItem('current');location.reload()});
-document.getElementById('btnWithReq').addEventListener('click',function(){
-var amt=document.getElementById('withAmount').value;var ph=document.getElementById('withPhone').value.trim();
-if(amt<300){alert('Min 300');return}
-var W=getW();W.push({id:Date.now(),user:localStorage.getItem('current'),amt:amt,phone:ph,status:'PENDING'});saveW(W);alert('Withdraw sent');loadDash();
-});
-document.getElementById('btnAct').addEventListener('click',function(){
-var U=getUsers();var html='';for(var i=0;i<U.length;i++){if(U[i].paid&&!U[i].ac){html+=U[i].f+' CODE:<b style=color:yellow>'+U[i].mc+'</b> Ref:'+(U[i].r||'NONE')+'<br><button onclick="approveUser(\''+U[i].f+'\')">APPROVE</button> <button onclick="rejectUser(\''+U[i].f+'\')">REJECT</button><br><br>'}}
-document.getElementById('listAct').innerHTML=html||'No pending';
-});
-document.getElementById('btnWith').addEventListener('click',function(){
-var W=getW();var html='';for(var i=0;i<W.length;i++){if(W[i].status=='PENDING'){html+=W[i].user+' KSh'+W[i].amt+' Phone:'+W[i].phone+'<br><button onclick="approveWith('+W[i].id+')">PAY</button> <button onclick="rejectWith('+W[i].id+')">REJECT</button><br><br>'}}
-document.getElementById('listWith').innerHTML=html||'No pending';
-});
-window.approveUser=function(f){var U=getUsers();for(var i=0;i<U.length;i++){if(U[i].f==f){U[i].ac=1;U[i].ex=4250}}saveUsers(U);alert(f+' ACTIVATED');document.getElementById('btnAct').click()}
-window.rejectUser=function(f){var U=getUsers();var N=[];for(var i=0;i<U.length;i++){if(U[i].f!=f){N.push(U[i])}}saveUsers(N);alert(f+' rejected');document.getElementById('btnAct').click()}
-window.approveWith=function(id){var W=getW();for(var i=0;i<W.length;i++){if(W[i].id==id){W[i].status='PAID'}}saveW(W);alert('PAID');document.getElementById('btnWith').click()}
-window.rejectWith=function(id){var W=getW();var N=[];for(var i=0;i<W.length;i++){if(W[i].id!=id){N.push(W[i])}}saveW(N);document.getElementById('btnWith').click()}
-
-var cur=localStorage.getItem('current');
-if(cur){
-if(cur=='admin'){document.getElementById('signupBox').classList.add('hide');document.getElementById('dashBox').classList.remove('hide');document.getElementById('adminBox').classList.remove('hide');loadDash()}
-else{var U=getUsers();var me=null;for(var i=0;i<U.length;i++){if(U[i].f==cur){me=U[i]}}
-if(me){if(!me.paid){document.getElementById('signupBox').classList.add('hide');document.getElementById('mpesaBox').classList.remove('hide')}
-else if(!me.ac){document.getElementById('signupBox').classList.add('hide');document.getElementById('waitBox').classList.remove('hide');document.getElementById('codeShow').innerText='CODE: '+me.mc}
-else{document.getElementById('signupBox').classList.add('hide');document.getElementById('dashBox').classList.remove('hide');loadDash()}}
-}
-}
-</script>
-</body>
-</html>
