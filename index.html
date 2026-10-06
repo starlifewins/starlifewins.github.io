@@ -1,16 +1,172 @@
-<!DOCTYPE html><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{background:#0a0e1f;color:#fff;font-family:system-ui;padding:8px}.c{background:#131a33;padding:10px;margin:6px 0;border-radius:8px}input,button{width:100%;padding:9px;margin:4px 0}button{background:#6a5cff;color:#fff;font-weight:700}.h{display:none}</style><div class="c"><h3>STARLIFE AGENCIES</h3><div id="s"><input id="un" placeholder="Username *"><input id="ps" type="password" placeholder="Password *"><button onclick="su()">SIGN UP - TAP HERE</button><button onclick="li()">LOGIN admin/admin123</button><p style="font-size:10px;color:#aaa">Tap SIGN UP, then M-PESA CODE</p></div><div id="m" class="h"><input id="mc" placeholder="M-PESA CODE"><button onclick="sp()">SUBMIT CODE</button></div><div id="w" class="h"><b id="wc"></b><p>Waiting approval</p><button onclick="cs()">CHECK IF APPROVED</button></div><div id="d" class="h"><b id="hu"></b> <button onclick="localStorage.clear();location.reload()">Logout Clear</button><p id="rl" style="color:#0f0;font-size:10px;word-break:break-all"></p><div id="ad" class="h"><h4>👑 ADMIN PANEL - FULL CODE</h4><button onclick="la()">ACTIVATIONS</button><button onclick="lw()">WITHDRAWS</button><div id="al"></div><div id="wl"></div></div><input id="wa" type=number placeholder="Amount"><input id="wp" placeholder="M-Pesa Phone"><button onclick="dw()">REQUEST WITHDRAW</button><div id="wh" style="font-size:11px"></div></div></div><script>
-function J(k){try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return[]}}function S(k,v){localStorage.setItem(k,k=='c'?v:JSON.stringify(v))}function G(k){return localStorage.getItem(k)}
-function su(){let b=document.getElementById('un').value.trim();let pw=document.getElementById('ps').value.trim();if(!b||!pw){alert('Enter username & password');return}let U=J('u');if(U.find(x=>x.f==b)){alert('Username taken, login');return}U.push({f:b,pw:pw,ac:0,paid:0,ex:4250,mc:'',r:location.search.split('ref=')[1]||null});S('u',U);S('c',b);alert('Account '+b+' created! Now enter M-PESA CODE');document.getElementById('s').classList.add('h');document.getElementById('m').classList.remove('h')}
-function sp(){let code=document.getElementById('mc').value.trim().toUpperCase();if(code.length<4){alert('Enter M-PESA CODE');return}let U=J('u');let me=U.find(x=>x.f==G('c'));if(!me){alert('No user');return}me.mc=code;me.paid=1;me.ac=0;S('u',U);document.getElementById('m').classList.add('h');document.getElementById('w').classList.remove('h');document.getElementById('wc').innerText='CODE: '+code}
-function cs(){let me=J('u').find(x=>x.f==G('c'));if(!me)return;if(me.ac){document.getElementById('w').classList.add('h');document.getElementById('d').classList.remove('h');ld()}else{alert('Still pending: '+me.mc+' - Admin must approve')}}
-function li(){let b=document.getElementById('un').value.trim();let pw=document.getElementById('ps').value.trim();if(b=='admin'&&pw=='admin123'){S('c','admin');document.getElementById('s').classList.add('h');document.getElementById('d').classList.remove('h');document.getElementById('ad').classList.remove('h');la();alert('ADMIN LOGIN OK');return}let U=J('u');let f=U.find(x=>x.f==b&&x.pw==pw);if(!f){alert('Wrong username/password - Sign up first');return}S('c',f.f);if(!f.paid){document.getElementById('s').classList.add('h');document.getElementById('m').classList.remove('h');return}if(!f.ac){document.getElementById('s').classList.add('h');document.getElementById('w').classList.remove('h');document.getElementById('wc').innerText='CODE: '+f.mc;return}document.getElementById('s').classList.add('h');document.getElementById('d').classList.remove('h');ld()}
-function ld(){let c=G('c');document.getElementById('hu').innerText=c=='admin'?'ADMIN':c;if(c!='admin'){document.getElementById('rl').innerText=location.origin+location.pathname+'?ref='+c}document.getElementById('wh').innerHTML=J('wd').filter(x=>x.user==c).map(x=>'KSh '+x.amt+' to '+x.phone+' - '+x.status).join('<br>')||'No withdraws'}
-function dw(){let amt=document.getElementById('wa').value;let ph=document.getElementById('wp').value.trim();if(!amt||amt<300){alert('Min 300');return}if(!ph){alert('Enter M-Pesa Phone');return}let W=J('wd');W.push({id:Date.now(),user:G('c'),amt:amt,phone:ph,status:'🟡 PENDING'});S('wd',W);alert('Withdraw KSh '+amt+' to '+ph+' requested - Admin will approve');ld()}
-function la(){let pend=J('u').filter(x=>x.paid&&!x.ac);document.getElementById('al').innerHTML=pend.length?pend.map(x=>'<div style="border:1px solid #0f0;padding:6px;margin:4px 0">'+x.f+' Phone? CODE:<b style="color:#ff0">'+x.mc+'</b> Ref:'+(x.r||'NONE')+'<br><button onclick=ap("'+x.f+'")>✅ APPROVE ACTIVATE</button> <button onclick=rj("'+x.f+'")>❌ REJECT</button></div>').join(''):'No pending activations'}
-function lw(){let pend=J('wd').filter(x=>x.status.includes('PENDING'));document.getElementById('wl').innerHTML=pend.length?pend.map(x=>'<div style="border:1px solid #ff0;padding:6px;margin:4px 0">'+x.user+' wants KSh <b style="color:#ff0">'+x.amt+'</b> Phone:'+x.phone+'<br><button onclick=apw('+x.id+')>✅ APPROVE PAY</button> <button onclick=rjw('+x.id+')>❌ REJECT WITHDRAW</button></div>').join(''):'No pending withdraws'}
-function ap(f){let U=J('u');let me=U.find(x=>x.f==f);if(!me)return;if(!confirm('Approve '+f+' CODE '+me.mc+'?'))return;me.ac=1;me.ex=4250;let ref=U.find(x=>x.f==me.r);if(ref)ref.ex=(ref.ex||0)+100;S('u',U);alert('✅ '+f+' ACTIVATED!');la()}
-function rj(f){if(!confirm('Reject '+f+'? Delete?'))return;S('u',J('u').filter(x=>x.f!=f));alert('❌ '+f+' rejected');la()}
-function apw(id){let W=J('wd');let w=W.find(x=>x.id==id);if(!w)return;if(!confirm('Approve withdraw KSh '+w.amt+' to '+w.phone+'?'))return;w.status='✅ PAID';S('wd',W);let U=J('u');let u=U.find(x=>x.f==w.user);if(u){u.ex=(u.ex||0)-w.amt;if(u.ex<0)u.ex=0;S('u',U)}alert('✅ Withdraw PAID!');lw()}
-function rjw(id){if(!confirm('Reject withdraw?'))return;S('wd',J('wd').filter(x=>x.id!=id));lw()}
-let cur=G('c');if(cur){if(cur=='admin'){document.getElementById('s').classList.add('h');document.getElementById('d').classList.remove('h');document.getElementById('ad').classList.remove('h');la()}else{let me=J('u').find(x=>x.f==cur);if(me){if(!me.paid){document.getElementById('s').classList.add('h');document.getElementById('m').classList.remove('h')}else if(me.paid&&!me.ac){document.getElementById('s').classList.add('h');document.getElementById('w').classList.remove('h');document.getElementById('wc').innerText='CODE: '+me.mc}else{document.getElementById('s').classList.add('h');document.getElementById('d').classList.remove('h');ld()}}}}
-  </script>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Starlife</title>
+<style>
+body{background:#0a0e1f;color:#fff;font-family:system-ui;padding:8px}
+.c{background:#131a33;padding:12px;margin:6px 0;border-radius:10px}
+input,button{width:100%;padding:10px;margin:4px 0;border-radius:6px}
+button{background:#6a5cff;color:#fff;font-weight:700;border:none}
+.h{display:none}
+</style>
+</head>
+<body>
+<div class="c">
+<h3>STARLIFE AGENCIES</h3>
+<div id="s">
+<input id="un" placeholder="Username">
+<input id="ps" type="password" placeholder="Password">
+<button onclick="su()">SIGN UP</button>
+<button onclick="li()">LOGIN admin/admin123</button>
+</div>
+<div id="m" class="h">
+<input id="mc" placeholder="M-PESA CODE">
+<button onclick="sp()">SUBMIT CODE</button>
+</div>
+<div id="w" class="h">
+<b id="wc"></b>
+<p>Waiting admin approval</p>
+<button onclick="cs()">CHECK IF APPROVED</button>
+</div>
+<div id="d" class="h">
+<b id="hu"></b>
+<button onclick="lo()">Logout</button>
+<p id="rl" style="color:#0f0;font-size:10px;word-break:break-all"></p>
+<div id="ad" class="h">
+<h4>ADMIN PANEL</h4>
+<button onclick="la()">ACTIVATIONS</button>
+<button onclick="lw()">WITHDRAWS</button>
+<div id="al"></div>
+<div id="wl"></div>
+</div>
+<input id="wa" type="number" placeholder="Amount">
+<input id="wp" placeholder="Phone">
+<button onclick="dw()">REQUEST WITHDRAW</button>
+<div id="wh"></div>
+</div>
+</div>
+<script>
+function J(k){try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return[]}}
+function S(k,v){localStorage.setItem(k,k=='c'?v:JSON.stringify(v))}
+function G(k){return localStorage.getItem(k)}
+function su(){
+let b=document.getElementById('un').value.trim()
+let pw=document.getElementById('ps').value.trim()
+if(!b||!pw){alert('Enter user & pass');return}
+let U=J('u')
+if(U.find(x=>x.f==b)){alert('Taken');return}
+U.push({f:b,pw:pw,ac:0,paid:0,ex:4250,mc:'',r:location.search.split('ref=')[1]||null})
+S('u',U);S('c',b)
+alert('Created '+b+' - Enter M-PESA CODE')
+document.getElementById('s').classList.add('h')
+document.getElementById('m').classList.remove('h')
+}
+function sp(){
+let code=document.getElementById('mc').value.trim().toUpperCase()
+if(code.length<4){alert('Enter CODE');return}
+let U=J('u')
+let me=U.find(x=>x.f==G('c'))
+me.mc=code;me.paid=1
+S('u',U)
+document.getElementById('m').classList.add('h')
+document.getElementById('w').classList.remove('h')
+document.getElementById('wc').innerText='CODE: '+code
+}
+function cs(){
+let me=J('u').find(x=>x.f==G('c'))
+if(me.ac){
+document.getElementById('w').classList.add('h')
+document.getElementById('d').classList.remove('h')
+ld()
+}else{alert('Pending '+me.mc)}
+}
+function li(){
+let b=document.getElementById('un').value.trim()
+let pw=document.getElementById('ps').value.trim()
+if(b=='admin'&&pw=='admin123'){
+S('c','admin')
+document.getElementById('s').classList.add('h')
+document.getElementById('d').classList.remove('h')
+document.getElementById('ad').classList.remove('h')
+la()
+return
+}
+let U=J('u')
+let f=U.find(x=>x.f==b&&x.pw==pw)
+if(!f){alert('Wrong - Sign up first');return}
+S('c',f.f)
+if(!f.paid){
+document.getElementById('s').classList.add('h')
+document.getElementById('m').classList.remove('h')
+}else if(!f.ac){
+document.getElementById('s').classList.add('h')
+document.getElementById('w').classList.remove('h')
+document.getElementById('wc').innerText=f.mc
+}else{
+document.getElementById('s').classList.add('h')
+document.getElementById('d').classList.remove('h')
+ld()
+}
+}
+function ld(){
+let c=G('c')
+document.getElementById('hu').innerText=c
+if(c!='admin'){
+document.getElementById('rl').innerText=location.origin+location.pathname+'?ref='+c
+}
+let wh=J('wd').filter(x=>x.user==c).map(x=>x.amt+' '+x.status).join('<br>')
+document.getElementById('wh').innerHTML=wh||'No withdraws'
+}
+function dw(){
+let amt=document.getElementById('wa').value
+let ph=document.getElementById('wp').value
+if(amt<300){alert('Min 300');return}
+let W=J('wd')
+W.push({id:Date.now(),user:G('c'),amt:amt,phone:ph,status:'PENDING'})
+S('wd',W)
+alert('Sent')
+ld()
+}
+function la(){
+let p=J('u').filter(x=>x.paid&&!x.ac)
+document.getElementById('al').innerHTML=p.map(x=>x.f+' CODE:'+x.mc+'<br><button onclick="ap(\''+x.f+'\')">✅ APPROVE</button> <button onclick="rj(\''+x.f+'\')">❌ REJECT</button>').join('<br><br>')||'None'
+}
+function lw(){
+let p=J('wd').filter(x=>x.status=='PENDING')
+document.getElementById('wl').innerHTML=p.map(x=>x.user+' KSh'+x.amt+' '+x.phone+'<br><button onclick="apw('+x.id+')">✅ PAY</button> <button onclick="rjw('+x.id+')">❌ REJECT</button>').join('<br><br>')||'None'
+}
+function ap(f){let U=J('u');U.find(x=>x.f==f).ac=1;S('u',U);la()}
+function rj(f){S('u',J('u').filter(x=>x.f!=f));la()}
+function apw(i){let W=J('wd');W.find(x=>x.id==i).status='PAID';S('wd',W);lw()}
+function rjw(i){S('wd',J('wd').filter(x=>x.id!=i));lw()}
+function lo(){localStorage.removeItem('c');location.reload()}
+let cur=G('c')
+if(cur){
+if(cur=='admin'){
+document.getElementById('s').classList.add('h')
+document.getElementById('d').classList.remove('h')
+document.getElementById('ad').classList.remove('h')
+la()
+}else{
+let me=J('u').find(x=>x.f==cur)
+if(me){
+if(!me.paid){
+document.getElementById('s').classList.add('h')
+document.getElementById('m').classList.remove('h')
+}else if(!me.ac){
+document.getElementById('s').classList.add('h')
+document.getElementById('w').classList.remove('h')
+document.getElementById('wc').innerText=me.mc
+}else{
+document.getElementById('s').classList.add('h')
+document.getElementById('d').classList.remove('h')
+ld()
+}
+}
+}
+}
+</script>
+</body>
+</html>
