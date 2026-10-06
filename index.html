@@ -5,166 +5,134 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Starlife</title>
 <style>
-body{background:#0a0e1f;color:#fff;font-family:system-ui;padding:8px}
-.c{background:#131a33;padding:12px;margin:6px 0;border-radius:10px}
-input,button{width:100%;padding:10px;margin:4px 0;border-radius:6px}
-button{background:#6a5cff;color:#fff;font-weight:700;border:none}
-.h{display:none}
+body{background:#0a0e1f;color:#fff;font-family:system-ui;padding:10px}
+.box{background:#131a33;padding:15px;border-radius:10px;margin-top:10px}
+input{width:100%;padding:12px;margin:6px 0;border-radius:6px;border:none}
+button{width:100%;padding:12px;margin:6px 0;border-radius:6px;background:#6a5cff;color:#fff;font-weight:800;border:none}
+.hide{display:none}
 </style>
 </head>
 <body>
-<div class="c">
-<h3>STARLIFE AGENCIES</h3>
-<div id="s">
-<input id="un" placeholder="Username">
-<input id="ps" type="password" placeholder="Password">
-<button onclick="su()">SIGN UP</button>
-<button onclick="li()">LOGIN admin/admin123</button>
+<div class="box">
+<h2>STARLIFE AGENCIES</h2>
+<div id="signupBox">
+<input id="userName" placeholder="Username">
+<input id="passWord" type="password" placeholder="Password">
+<button id="btnSignup">SIGN UP - CLICK HERE</button>
+<button id="btnLogin">LOGIN admin / admin123</button>
+<p id="msg" style="color:#0f0"></p>
 </div>
-<div id="m" class="h">
-<input id="mc" placeholder="M-PESA CODE">
-<button onclick="sp()">SUBMIT CODE</button>
+<div id="mpesaBox" class="hide">
+<input id="mpesaCode" placeholder="M-PESA CODE">
+<button id="btnMpesa">SUBMIT CODE</button>
 </div>
-<div id="w" class="h">
-<b id="wc"></b>
-<p>Waiting admin approval</p>
-<button onclick="cs()">CHECK IF APPROVED</button>
+<div id="waitBox" class="hide">
+<b id="codeShow"></b>
+<p>Waiting Admin Approval...</p>
+<button id="btnCheck">CHECK IF APPROVED</button>
 </div>
-<div id="d" class="h">
-<b id="hu"></b>
-<button onclick="lo()">Logout</button>
-<p id="rl" style="color:#0f0;font-size:10px;word-break:break-all"></p>
-<div id="ad" class="h">
+<div id="dashBox" class="hide">
+<h3 id="helloUser"></h3>
+<button id="btnLogout">Logout Clear</button>
+<p id="refLink" style="color:#0f0;font-size:11px;word-break:break-all"></p>
+<div id="adminBox" class="hide">
 <h4>ADMIN PANEL</h4>
-<button onclick="la()">ACTIVATIONS</button>
-<button onclick="lw()">WITHDRAWS</button>
-<div id="al"></div>
-<div id="wl"></div>
+<button id="btnAct">Show Activations</button>
+<button id="btnWith">Show Withdraws</button>
+<div id="listAct"></div>
+<div id="listWith"></div>
 </div>
-<input id="wa" type="number" placeholder="Amount">
-<input id="wp" placeholder="Phone">
-<button onclick="dw()">REQUEST WITHDRAW</button>
-<div id="wh"></div>
+<input id="withAmount" type="number" placeholder="Amount min 300">
+<input id="withPhone" placeholder="M-Pesa Phone">
+<button id="btnWithReq">REQUEST WITHDRAW</button>
+<div id="withHistory"></div>
 </div>
 </div>
 <script>
-function J(k){try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return[]}}
-function S(k,v){localStorage.setItem(k,k=='c'?v:JSON.stringify(v))}
-function G(k){return localStorage.getItem(k)}
-function su(){
-let b=document.getElementById('un').value.trim()
-let pw=document.getElementById('ps').value.trim()
-if(!b||!pw){alert('Enter user & pass');return}
-let U=J('u')
-if(U.find(x=>x.f==b)){alert('Taken');return}
-U.push({f:b,pw:pw,ac:0,paid:0,ex:4250,mc:'',r:location.search.split('ref=')[1]||null})
-S('u',U);S('c',b)
-alert('Created '+b+' - Enter M-PESA CODE')
-document.getElementById('s').classList.add('h')
-document.getElementById('m').classList.remove('h')
-}
-function sp(){
-let code=document.getElementById('mc').value.trim().toUpperCase()
+function getUsers(){try{return JSON.parse(localStorage.getItem('users')||'[]')}catch(e){return[]}}
+function saveUsers(u){localStorage.setItem('users',JSON.stringify(u))}
+function getW(){try{return JSON.parse(localStorage.getItem('wd')||'[]')}catch(e){return[]}}
+function saveW(w){localStorage.setItem('wd',JSON.stringify(w))}
+
+document.getElementById('btnSignup').addEventListener('click',function(){
+var b=document.getElementById('userName').value.trim();
+var pw=document.getElementById('passWord').value.trim();
+document.getElementById('msg').innerText='Trying '+b+'...';
+if(!b||!pw){alert('Enter username & password');return}
+var U=getUsers();
+for(var i=0;i<U.length;i++){if(U[i].f==b){alert('Username taken, login');return}}
+var ref = new URLSearchParams(window.location.search).get('ref');
+U.push({f:b,pw:pw,ac:0,paid:0,ex:4250,mc:'',r:ref});
+saveUsers(U);
+localStorage.setItem('current',b);
+alert('Account '+b+' created! Now enter M-PESA CODE');
+document.getElementById('signupBox').classList.add('hide');
+document.getElementById('mpesaBox').classList.remove('hide');
+});
+
+document.getElementById('btnMpesa').addEventListener('click',function(){
+var code=document.getElementById('mpesaCode').value.trim().toUpperCase();
 if(code.length<4){alert('Enter CODE');return}
-let U=J('u')
-let me=U.find(x=>x.f==G('c'))
-me.mc=code;me.paid=1
-S('u',U)
-document.getElementById('m').classList.add('h')
-document.getElementById('w').classList.remove('h')
-document.getElementById('wc').innerText='CODE: '+code
+var U=getUsers();var cur=localStorage.getItem('current');
+var me=null;for(var i=0;i<U.length;i++){if(U[i].f==cur){me=U[i]}}
+if(!me){alert('No user found, signup again');return}
+me.mc=code;me.paid=1;saveUsers(U);
+document.getElementById('mpesaBox').classList.add('hide');
+document.getElementById('waitBox').classList.remove('hide');
+document.getElementById('codeShow').innerText='CODE: '+code;
+});
+
+document.getElementById('btnCheck').addEventListener('click',function(){
+var U=getUsers();var cur=localStorage.getItem('current');
+var me=null;for(var i=0;i<U.length;i++){if(U[i].f==cur){me=U[i]}}
+if(me&&me.ac){document.getElementById('waitBox').classList.add('hide');document.getElementById('dashBox').classList.remove('hide');loadDash()}else{alert('Still pending: '+(me?me.mc:'')+' - Admin not approved yet')}
+});
+
+document.getElementById('btnLogin').addEventListener('click',function(){
+var b=document.getElementById('userName').value.trim();
+var pw=document.getElementById('passWord').value.trim();
+if(b=='admin'&&pw=='admin123'){localStorage.setItem('current','admin');document.getElementById('signupBox').classList.add('hide');document.getElementById('dashBox').classList.remove('hide');document.getElementById('adminBox').classList.remove('hide');loadDash();alert('ADMIN OK');return}
+var U=getUsers();var found=null;for(var i=0;i<U.length;i++){if(U[i].f==b&&U[i].pw==pw){found=U[i]}}
+if(!found){alert('Wrong username/password - Signup first');return}
+localStorage.setItem('current',found.f);
+if(!found.paid){document.getElementById('signupBox').classList.add('hide');document.getElementById('mpesaBox').classList.remove('hide')}
+else if(!found.ac){document.getElementById('signupBox').classList.add('hide');document.getElementById('waitBox').classList.remove('hide');document.getElementById('codeShow').innerText='CODE: '+found.mc}
+else{document.getElementById('signupBox').classList.add('hide');document.getElementById('dashBox').classList.remove('hide');loadDash()}
+});
+
+function loadDash(){
+var c=localStorage.getItem('current');
+document.getElementById('helloUser').innerText=c;
+if(c!='admin'){document.getElementById('refLink').innerText=location.origin+location.pathname+'?ref='+c}
+var wh='';var W=getW();for(var i=0;i<W.length;i++){if(W[i].user==c){wh+=W[i].amt+' '+W[i].status+'<br>'}}
+document.getElementById('withHistory').innerHTML=wh||'No withdraws';
 }
-function cs(){
-let me=J('u').find(x=>x.f==G('c'))
-if(me.ac){
-document.getElementById('w').classList.add('h')
-document.getElementById('d').classList.remove('h')
-ld()
-}else{alert('Pending '+me.mc)}
-}
-function li(){
-let b=document.getElementById('un').value.trim()
-let pw=document.getElementById('ps').value.trim()
-if(b=='admin'&&pw=='admin123'){
-S('c','admin')
-document.getElementById('s').classList.add('h')
-document.getElementById('d').classList.remove('h')
-document.getElementById('ad').classList.remove('h')
-la()
-return
-}
-let U=J('u')
-let f=U.find(x=>x.f==b&&x.pw==pw)
-if(!f){alert('Wrong - Sign up first');return}
-S('c',f.f)
-if(!f.paid){
-document.getElementById('s').classList.add('h')
-document.getElementById('m').classList.remove('h')
-}else if(!f.ac){
-document.getElementById('s').classList.add('h')
-document.getElementById('w').classList.remove('h')
-document.getElementById('wc').innerText=f.mc
-}else{
-document.getElementById('s').classList.add('h')
-document.getElementById('d').classList.remove('h')
-ld()
-}
-}
-function ld(){
-let c=G('c')
-document.getElementById('hu').innerText=c
-if(c!='admin'){
-document.getElementById('rl').innerText=location.origin+location.pathname+'?ref='+c
-}
-let wh=J('wd').filter(x=>x.user==c).map(x=>x.amt+' '+x.status).join('<br>')
-document.getElementById('wh').innerHTML=wh||'No withdraws'
-}
-function dw(){
-let amt=document.getElementById('wa').value
-let ph=document.getElementById('wp').value
+document.getElementById('btnLogout').addEventListener('click',function(){localStorage.removeItem('current');location.reload()});
+document.getElementById('btnWithReq').addEventListener('click',function(){
+var amt=document.getElementById('withAmount').value;var ph=document.getElementById('withPhone').value.trim();
 if(amt<300){alert('Min 300');return}
-let W=J('wd')
-W.push({id:Date.now(),user:G('c'),amt:amt,phone:ph,status:'PENDING'})
-S('wd',W)
-alert('Sent')
-ld()
-}
-function la(){
-let p=J('u').filter(x=>x.paid&&!x.ac)
-document.getElementById('al').innerHTML=p.map(x=>x.f+' CODE:'+x.mc+'<br><button onclick="ap(\''+x.f+'\')">✅ APPROVE</button> <button onclick="rj(\''+x.f+'\')">❌ REJECT</button>').join('<br><br>')||'None'
-}
-function lw(){
-let p=J('wd').filter(x=>x.status=='PENDING')
-document.getElementById('wl').innerHTML=p.map(x=>x.user+' KSh'+x.amt+' '+x.phone+'<br><button onclick="apw('+x.id+')">✅ PAY</button> <button onclick="rjw('+x.id+')">❌ REJECT</button>').join('<br><br>')||'None'
-}
-function ap(f){let U=J('u');U.find(x=>x.f==f).ac=1;S('u',U);la()}
-function rj(f){S('u',J('u').filter(x=>x.f!=f));la()}
-function apw(i){let W=J('wd');W.find(x=>x.id==i).status='PAID';S('wd',W);lw()}
-function rjw(i){S('wd',J('wd').filter(x=>x.id!=i));lw()}
-function lo(){localStorage.removeItem('c');location.reload()}
-let cur=G('c')
+var W=getW();W.push({id:Date.now(),user:localStorage.getItem('current'),amt:amt,phone:ph,status:'PENDING'});saveW(W);alert('Withdraw sent');loadDash();
+});
+document.getElementById('btnAct').addEventListener('click',function(){
+var U=getUsers();var html='';for(var i=0;i<U.length;i++){if(U[i].paid&&!U[i].ac){html+=U[i].f+' CODE:<b style=color:yellow>'+U[i].mc+'</b> Ref:'+(U[i].r||'NONE')+'<br><button onclick="approveUser(\''+U[i].f+'\')">APPROVE</button> <button onclick="rejectUser(\''+U[i].f+'\')">REJECT</button><br><br>'}}
+document.getElementById('listAct').innerHTML=html||'No pending';
+});
+document.getElementById('btnWith').addEventListener('click',function(){
+var W=getW();var html='';for(var i=0;i<W.length;i++){if(W[i].status=='PENDING'){html+=W[i].user+' KSh'+W[i].amt+' Phone:'+W[i].phone+'<br><button onclick="approveWith('+W[i].id+')">PAY</button> <button onclick="rejectWith('+W[i].id+')">REJECT</button><br><br>'}}
+document.getElementById('listWith').innerHTML=html||'No pending';
+});
+window.approveUser=function(f){var U=getUsers();for(var i=0;i<U.length;i++){if(U[i].f==f){U[i].ac=1;U[i].ex=4250}}saveUsers(U);alert(f+' ACTIVATED');document.getElementById('btnAct').click()}
+window.rejectUser=function(f){var U=getUsers();var N=[];for(var i=0;i<U.length;i++){if(U[i].f!=f){N.push(U[i])}}saveUsers(N);alert(f+' rejected');document.getElementById('btnAct').click()}
+window.approveWith=function(id){var W=getW();for(var i=0;i<W.length;i++){if(W[i].id==id){W[i].status='PAID'}}saveW(W);alert('PAID');document.getElementById('btnWith').click()}
+window.rejectWith=function(id){var W=getW();var N=[];for(var i=0;i<W.length;i++){if(W[i].id!=id){N.push(W[i])}}saveW(N);document.getElementById('btnWith').click()}
+
+var cur=localStorage.getItem('current');
 if(cur){
-if(cur=='admin'){
-document.getElementById('s').classList.add('h')
-document.getElementById('d').classList.remove('h')
-document.getElementById('ad').classList.remove('h')
-la()
-}else{
-let me=J('u').find(x=>x.f==cur)
-if(me){
-if(!me.paid){
-document.getElementById('s').classList.add('h')
-document.getElementById('m').classList.remove('h')
-}else if(!me.ac){
-document.getElementById('s').classList.add('h')
-document.getElementById('w').classList.remove('h')
-document.getElementById('wc').innerText=me.mc
-}else{
-document.getElementById('s').classList.add('h')
-document.getElementById('d').classList.remove('h')
-ld()
-}
-}
+if(cur=='admin'){document.getElementById('signupBox').classList.add('hide');document.getElementById('dashBox').classList.remove('hide');document.getElementById('adminBox').classList.remove('hide');loadDash()}
+else{var U=getUsers();var me=null;for(var i=0;i<U.length;i++){if(U[i].f==cur){me=U[i]}}
+if(me){if(!me.paid){document.getElementById('signupBox').classList.add('hide');document.getElementById('mpesaBox').classList.remove('hide')}
+else if(!me.ac){document.getElementById('signupBox').classList.add('hide');document.getElementById('waitBox').classList.remove('hide');document.getElementById('codeShow').innerText='CODE: '+me.mc}
+else{document.getElementById('signupBox').classList.add('hide');document.getElementById('dashBox').classList.remove('hide');loadDash()}}
 }
 }
 </script>
